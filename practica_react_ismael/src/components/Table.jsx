@@ -1,12 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, version } from "react";
 import List from "./List.jsx";
 import { Coche, Moto } from "../data/Vehicles.js";
 import vehiculos from "../data/Vehicles.js";
 import "../css/table.css"
 
-export function Tabla(props){
+export function Tabla(props) {
 
   const [datos, setDatos] = useState(vehiculos);
+
+  // Funcion para eliminar un elemento
+  let remove = () => {
+    datos.splice(0, 1);
+    setDatos([...datos]);
+  };
+
+  // Funcion para añadir un elemento
+  let add = () => {
+    let elem = prompt("Añadir un Coche o Moto");
+    elem = elem ? elem.toLowerCase() : "";
+    if (elem === "coche") {
+      let c = new Coche;
+      c.marca = prompt("Marca:")
+      c.modelo = prompt("Modelo:")
+      c.descripcion = prompt("Descripción")
+      c.color = prompt("Color:")
+      c.precio = parseFloat(prompt("Precio:"))
+      c.puertas = parseInt(prompt("Puertas:"))
+      datos.push(c);
+      setDatos([...datos]);
+    } else if (elem === "moto") {
+      let m = new Moto;
+      m.marca = prompt("Marca:")
+      m.modelo = prompt("Modelo:")
+      m.descripcion = prompt("Descripción")
+      m.color = prompt("Color:")
+      m.precio = parseFloat(prompt("Precio:"))
+      m.potencia = parseInt(prompt("Potencia:"))
+      datos.push(m);
+      setDatos([...datos]);
+    } else {
+      alert("No se ha podido añadir el vehiculo")
+    }
+  }
 
   // Función para filtrar coches
   let onlyCars = () => {
@@ -54,7 +89,7 @@ export function Tabla(props){
             <tr>
               <th>Marca</th>
               <th>Modelo</th>
-              <th>Tipo</th>
+              <th>Descripción</th>
               <th>Color</th>
               <th>Precio</th>
               <th>Puertas</th>
@@ -66,6 +101,14 @@ export function Tabla(props){
       </ div>
 
       <div className="button-container">
+
+        <button onClick={remove} className="button">
+          Eliminar primer vehiculo
+        </button>
+
+        <button onClick={add} className="button">
+          Añadir vehiculo
+        </button>
 
         <button onClick={onlyCars} className="button">
           Filtrar Coches
@@ -98,16 +141,3 @@ export function Tabla(props){
 }
 
 export default Tabla;
-
-
-// {datos.map((element, index) => (
-//   <tr key={index}>
-//     <td>{element.marca}</td>
-//     <td>{element.modelo}</td>
-//     <td>{element.descripcion}</td>
-//     <td>{element.color}</td>
-//     <td>{element.precio}</td>
-//     <td>{element.puertas}</td>
-//     <td>{element.potencia}</td>
-//   </tr>
-// ))}
